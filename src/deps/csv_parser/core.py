@@ -7,7 +7,7 @@ class CsvParser:
     @staticmethod
     def parse_csv(path, row_handler: Callable = None, without_headers: bool = True):
         parsed_data = []
-        with open(path, 'r') as file:
+        with open(path, 'r', encoding='utf-8') as file:
             reader = csv.reader(file)
             if without_headers:
                 next(reader)
