@@ -32,12 +32,14 @@ def load_prices(folder_path):
     return sorted(data, key=lambda x: x[3], reverse=True)
 
 
-def search(value):
-    all_data = load_prices("/home/glaz/dev/price_analyzer/data")
+def search(folder_path, value):
+    if not os.path.exists(folder_path):
+        raise FileNotFoundError(f"Не найден путь к папке: {folder_path}")
+    all_data = load_prices(folder_path)
     return [x for x in all_data if value in x[0]]
 
 
-def export_to_html(data, output_file_path=r'/home/glaz/dev/price_analyzer/data/output.html'):
+def export_to_html(data, output_file_path):
     with open(output_file_path, 'w', encoding='utf-8') as file:
         file.write('''
         <!DOCTYPE html>
@@ -74,14 +76,14 @@ def main():
             input_str = input("Укажите значение: ")
             if input_str == "exit":
                 break
-            result = search(input_str)
+            result = search("<Укажите путь к папке>", input_str)
             print(result)
     except KeyboardInterrupt:
         pass
 
     finally:
         if result:
-            export_to_html(result)
+            export_to_html(result, "<Укажите путь к html файлу>")
 
 
 if __name__ == '__main__':
